@@ -4,10 +4,10 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Dot {
-	private Vector2 velocity, acceleration;
-	private Circle circle;
-	private boolean isAlive;
-	private float friction;
+	protected Vector2 velocity, acceleration;
+	protected Circle circle;
+	protected boolean isAlive;
+	protected float friction;
 	
 	/**
 	 * Makes a new Dot object to be used in the game.
