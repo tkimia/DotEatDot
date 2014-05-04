@@ -7,6 +7,11 @@ import com.tkapps.DotEatDot.MyGdxGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.title = "Dot Eat Dot";
+		config.useGL30 = false;
+		config.width = 272;
+		config.height = 408;
+		
 		new LwjglApplication(new MyGdxGame(), config);
 	}
 }

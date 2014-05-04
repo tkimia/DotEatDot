@@ -19,7 +19,7 @@ public class Hero extends Dot {
 		velocity.x += speed;
 	}
 	
-	public void PushLeft(int speed) {
+	public void pushLeft(int speed) {
 		velocity.x -= speed;
 	}
 

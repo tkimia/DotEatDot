@@ -2,6 +2,7 @@ package com.tkapps.GameObjects;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
+import com.tkapps.Screens.GameScreen;
 
 public class Dot {
 	protected Vector2 velocity, acceleration;
@@ -36,7 +37,7 @@ public class Dot {
 	/**
 	 * Updates the dot's position, velocity, and acceleration.
 	 */
-	private void update(float delta) {
+	public void update(float delta) {
 		//change velocity based on acceleration
 		acceleration.set(friction * -velocity.x, friction * -velocity.y);
 		
@@ -50,11 +51,20 @@ public class Dot {
 			circle.x = circle.radius;
 			velocity.x = Math.abs(velocity.x);
 		}
+		else if (circle.x + circle.radius > GameScreen.gameWidth){
+			circle.x = GameScreen.gameWidth - circle.radius;
+			velocity.x = -Math.abs(velocity.x);
+		}
+			
 		
 		
 		if (circle.y - circle.radius < 0) {
 			circle.y = circle.radius;
 			velocity.y = Math.abs(velocity.y);
+		}
+		else if (circle.y + circle.radius > GameScreen.gameHeight){
+			circle.y = GameScreen.gameHeight - circle.radius;
+			velocity.y = -Math.abs(velocity.y);
 		}
 	}
 
