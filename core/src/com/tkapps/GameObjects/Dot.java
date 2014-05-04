@@ -24,14 +24,10 @@ public class Dot {
 		circle = new Circle(new Vector2(x, y), radius);
 		velocity = new Vector2((float) Math.cos(direction), (float) Math.sin(direction)).scl(initSpeed);
 		
-		if (friction < 0)
-			friction = 0;
-		else if (friction > 0.75)
-			friction = 0.75f;
-		
 		this.friction = friction;
 		
 		acceleration = new Vector2(0, 0);
+		isAlive = true;
 	}
 	
 	/**
@@ -40,11 +36,10 @@ public class Dot {
 	public void update(float delta) {
 		//change velocity based on acceleration
 		acceleration.set(friction * -velocity.x, friction * -velocity.y);
-		
 		velocity.add(acceleration.cpy().scl(delta));
 		
+		//change position based on velocity
 		Vector2 temp = velocity.cpy().scl(delta);
-		
 		circle.setPosition(circle.x + temp.x, circle.y + temp.y);
 		
 		if (circle.x - circle.radius < 0) {
@@ -72,12 +67,23 @@ public class Dot {
 		return velocity;
 	}
 
+	public void setVelocity(Vector2 velocity) {
+		this.velocity = velocity;
+	}
+
 	public Circle getCircle() {
 		return circle;
 	}
 
 	public boolean isAlive() {
 		return isAlive;
+	}
+	
+	/**
+	 * Sets the Dot's isAlive to false
+	 */
+	public void die() {
+		isAlive = false;
 	}
 
 	public float getFriction() {

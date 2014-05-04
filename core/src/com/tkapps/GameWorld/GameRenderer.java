@@ -36,11 +36,21 @@ public class GameRenderer {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
+		//put columns down
+		shapeRenderer.begin(ShapeType.Line);
+		shapeRenderer.setColor(Color.GRAY);
+		for (Dot e : gameField.getUntouchables()) 
+			shapeRenderer.circle(e.getCircle().x, e.getCircle().y, e.getCircle().radius);
+		
+		shapeRenderer.end();
+		
 		shapeRenderer.begin(ShapeType.Filled);
 		
 		//put hero down
-		shapeRenderer.setColor(111 / 255.0f, 186 / 255.0f, 45 / 255.0f, 1);
-		shapeRenderer.circle(hero.getCircle().x, hero.getCircle().y, hero.getCircle().radius);
+		if (hero.isAlive()) {
+			shapeRenderer.setColor(111 / 255.0f, 186 / 255.0f, 45 / 255.0f, 1);
+			shapeRenderer.circle(hero.getCircle().x, hero.getCircle().y, hero.getCircle().radius);
+		}
 		
 		//put big boss down
 		shapeRenderer.setColor(ColorHelper.getColor(bigBoss.getCircle().radius));
@@ -53,13 +63,7 @@ public class GameRenderer {
 		}
 		shapeRenderer.end();
 		
-		//put columns down
-		shapeRenderer.begin(ShapeType.Line);
-		shapeRenderer.setColor(Color.GRAY);
-		for (Dot e : gameField.getUntouchables()) 
-			shapeRenderer.circle(e.getCircle().x, e.getCircle().y, e.getCircle().radius);
-		
-		shapeRenderer.end();
+
 	}
 
 }

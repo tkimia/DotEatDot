@@ -22,6 +22,23 @@ public class Hero extends Dot {
 	public void pushLeft(int speed) {
 		velocity.x -= speed;
 	}
-
+	
+	/**
+	 * Handles collision between Hero and other Dots.
+	 * @param d the other dot in the collision handling
+	 * @return true if other dot is dead. false if no collision or hero is dead.
+	 */
+	public boolean handleCollision(Dot d){
+		if (circle.overlaps(d.getCircle())) {
+			if (circle.radius > d.getCircle().radius){
+				circle.radius += d.getCircle().radius / circle.radius;
+				return true;
+			}
+			else {
+				die();
+			}
+		}
+		return false;
+	}
 	
 }

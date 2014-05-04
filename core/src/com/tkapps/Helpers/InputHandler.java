@@ -1,12 +1,15 @@
 package com.tkapps.Helpers;
 
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
+
 import com.badlogic.gdx.math.Vector2;
 import com.tkapps.GameObjects.Hero;
 import com.tkapps.GameWorld.GameField;
 
 public class InputHandler implements GestureListener {
 	public static final int HERO_SPEED = 80;
+	
+	private int taps;
 	private GameField gameField;
 	private Hero hero;
 	
@@ -24,8 +27,10 @@ public class InputHandler implements GestureListener {
 
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
-		// TODO Auto-generated method stub
-		return false;
+		taps++;
+		//stop hero
+		if (taps > 1 ) hero.setVelocity(new Vector2(0, 0));
+		return true;
 	}
 
 	@Override
@@ -36,6 +41,7 @@ public class InputHandler implements GestureListener {
 
 	@Override
 	public boolean fling(float velocityX, float velocityY, int button) {
+		taps = 0;
 		if (Math.abs(velocityX) > Math.abs(velocityY)) {
 			if (velocityX > 0) {
 				hero.pushRight(HERO_SPEED);
