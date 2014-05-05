@@ -13,6 +13,7 @@ public class GameField {
 	private Dot bigBoss;
 	private ArrayList<Dot> enemies = new ArrayList<Dot>();
 	private ArrayList<Dot> untouchables = new ArrayList<Dot>();
+	
 	private Random r = new Random();
 	
 	//for spawning another enemy bigger than you are
@@ -22,6 +23,9 @@ public class GameField {
 	private float runTime = 0;
 	
 	private float height, width;
+	
+	//the state of the game
+	private GameState currentState;
 	
 	/**
 	 * 
@@ -44,18 +48,44 @@ public class GameField {
 		
 		this.height = height;
 		this.width = width;
+		
+		currentState = GameState.READY;
 	}
 	
 	public ArrayList<Dot> getUntouchables() {
 		return untouchables;
 	}
+	
+	public void update(float delta) {
+		switch (currentState) {
+		case READY:
+			updateReady(delta);
+			break;
+		case GAMEOVER:
+			updateRunning(delta);
+			updateGameOver(delta);
+			break;
+		case RUNNING:
+		default:
+			updateRunning(delta);
+		}
+	}
+	
+	private void updateGameOver(float delta) {
+		
+	}
+
+	public void updateReady(float delta) {
+		
+	}
+	
 	/**
-	 * This update method updates all circle's positions. If there are collisions
+	 * This updateRunning method updates all circle's positions. If there are collisions
 	 * this method resets the circle's attributes, or removes it from the map entirely.
 	 * See inner comments for detail
 	 * @param delta times elapsed since last update
 	 */
-	public void update(float delta) {
+	public void updateRunning(float delta) {
 		//update position for moving circles
 		runTime += delta;
 		hero.update(delta);
@@ -83,7 +113,7 @@ public class GameField {
 		if (hero.isAlive()) {
 			Dot[] eArr = getEnemies().toArray(new Dot[] {});
 			for (Dot e : eArr) {
-				if (hero.handleCollision(e)) {
+				if (e.isPresent() && hero.handleCollision(e)) {
 					boolean canAdd = true;
 					enemies.remove(e);
 					if (hero.getCircle().radius < 26) {
@@ -120,6 +150,7 @@ public class GameField {
 						r.nextInt((int)height-2*newSize)+newSize,
 						newSize, r.nextFloat()*360, r.nextInt(30)+30, 0
 						);
+				temp.setUnpresent();
 				canAdd = true;
 				for (Dot column : untouchables)
 					canAdd = canAdd && !temp.getCircle().overlaps(column.getCircle());
@@ -127,9 +158,33 @@ public class GameField {
 					enemies.add(temp);
 			}while(!canAdd);
 		}
+		
 		if (bigBoss.isAlive() && hero.isAlive() && hero.handleCollision(bigBoss)){
 			bigBoss.die();
+			currentState = GameState.GAMEOVER;
 		}
+		else if (!hero.isAlive()) {
+			currentState = GameState.GAMEOVER;
+		}
+	}
+	
+	public void restart() {
+		//reset hero
+		hero = null;
+		hero = new Hero(102, 200, 5f, 0, 0, 0.85f);
+		
+		//reset big boss
+		bigBoss = null;
+		bigBoss = new Dot(50, 50, 25f, 260, 50, 0f);
+		
+		//reset fish food
+		enemies.clear();
+		enemies.add(new Dot(100, 50, 4f, 280, 50, 0f));
+		enemies.add(new Dot(240, 350, 4f, 280, 50, 0f));
+		
+		runTime = 0;
+		sizeLvl = 1;
+		
 	}
 
 	public float getHeight() {
@@ -154,6 +209,14 @@ public class GameField {
 
 	public float getRunTime() {
 		return runTime;
+	}
+
+	public GameState getCurrentState() {
+		return currentState;
+	}
+
+	public void setCurrentState(GameState currentState) {
+		this.currentState = currentState;
 	}
 
 	

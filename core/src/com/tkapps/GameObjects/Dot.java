@@ -9,6 +9,7 @@ public class Dot {
 	protected Circle circle;
 	protected boolean isAlive;
 	protected float friction;
+	protected boolean present;
 	
 	/**
 	 * Makes a new Dot object to be used in the game.
@@ -28,6 +29,7 @@ public class Dot {
 		
 		acceleration = new Vector2(0, 0);
 		isAlive = true;
+		present = true;
 	}
 	
 	/**
@@ -45,10 +47,12 @@ public class Dot {
 		if (circle.x - circle.radius < 0) {
 			circle.x = circle.radius;
 			velocity.x = Math.abs(velocity.x);
+			present = true;
 		}
 		else if (circle.x + circle.radius > GameScreen.gameWidth){
 			circle.x = GameScreen.gameWidth - circle.radius;
 			velocity.x = -Math.abs(velocity.x);
+			present = true;
 		}
 			
 		
@@ -56,10 +60,12 @@ public class Dot {
 		if (circle.y - circle.radius < 0) {
 			circle.y = circle.radius;
 			velocity.y = Math.abs(velocity.y);
+			present = true;
 		}
 		else if (circle.y + circle.radius > GameScreen.gameHeight){
 			circle.y = GameScreen.gameHeight - circle.radius;
 			velocity.y = -Math.abs(velocity.y);
+			present = true;
 		}
 	}
 
@@ -90,6 +96,13 @@ public class Dot {
 		return friction;
 	}
 	
+	public void setUnpresent(){
+		present = false;
+	}
+	
+	public boolean isPresent() {
+		return present;
+	}
 	
 	
 }

@@ -37,9 +37,12 @@ public class GameRenderer {
 	}
 	
 	public void render(float runTime) {
+		hero = gameField.getHero();
+		bigBoss = gameField.getBigBoss();
 		//setup
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
 		
 		//put columns down
 		shapeRenderer.begin(ShapeType.Line);
@@ -51,7 +54,7 @@ public class GameRenderer {
 		
 		shapeRenderer.begin(ShapeType.Filled);
 		
-		shapeRenderer.setColor(Color.LIGHT_GRAY);
+		shapeRenderer.setColor(Color.GRAY);
 		for (Dot e : gameField.getUntouchables()) 
 			shapeRenderer.circle(e.getCircle().x, e.getCircle().y, e.getCircle().radius);
 		//put hero down
@@ -66,7 +69,7 @@ public class GameRenderer {
 			if (e.getCircle().radius <= hero.getCircle().radius)
 				shapeRenderer.setColor(Color.WHITE);
 			else
-				shapeRenderer.setColor(Color.PINK);
+				shapeRenderer.setColor(1f, 99f/255f, 71f/255f, (e.isPresent()) ? 1f : 0.5f);
 			shapeRenderer.circle(e.getCircle().x, e.getCircle().y, e.getCircle().radius);
 		}
 		
@@ -77,17 +80,36 @@ public class GameRenderer {
 		}
 		shapeRenderer.end();
 		
+		drawText();
 
-		//use the sprite batch to draw the time
+	}
+
+	private void drawText() {
+		//use the sprite batch to draw the text depending on the currentState
 		sprite.begin();
 		sprite.enableBlending();
-
-		int mins = (int)(gameField.getRunTime() / 60);
-		String time = String.format("Time: %02d:%02d", mins, (int)(gameField.getRunTime()-60*mins));
-		AssetHandler.font.draw(sprite, time, 150, 15);
+		if (gameField.getCurrentState() == GameState.RUNNING) {
+			int mins = (int)(gameField.getRunTime() / 60);
+			String time = String.format("Time: %02d:%02d", mins, (int)(gameField.getRunTime()-60*mins));
+			AssetHandler.font.draw(sprite, time, 150, 15);
+		}
+		else if (gameField.getCurrentState() == GameState.READY) {
+			AssetHandler.font.draw(sprite, "Tap to Start", 75, gameField.getHeight()/2);
+		}
+		else if (gameField.getCurrentState() == GameState.GAMEOVER) {
+			if (hero.isAlive()){
+				AssetHandler.font.draw(sprite, "YOU WIN!", 75, gameField.getHeight()/2);
+				AssetHandler.font.draw(sprite, "Play Again?", 75, gameField.getHeight()/2+20);
+			}
+			else {
+				AssetHandler.font.draw(sprite, "You Lose", 75, gameField.getHeight()/2);
+				AssetHandler.font.draw(sprite, "Play Again?", 75, gameField.getHeight()/2+20);
+			}
+				
+		}
 		
 		sprite.end();
-
+		
 	}
 
 }

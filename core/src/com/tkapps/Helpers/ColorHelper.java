@@ -13,7 +13,7 @@ public class ColorHelper {
 	};
 	
 	public static Color getColor(float size) {
-		return enemyColors[(int) ((size-1)/5)];
+		return enemyColors[(int) ((size-1)/6)];
 		
 	}
 }
