@@ -1,5 +1,7 @@
 package com.tkapps.GameObjects;
 
+import com.tkapps.Helpers.SoundHandler;
+
 public class Hero extends Dot {
 	private static final float TURN_SHARPNESS = 0.6f;
 	
@@ -36,10 +38,12 @@ public class Hero extends Dot {
 	public boolean handleCollision(Dot d){
 		if (circle.overlaps(d.getCircle())) {
 			if (circle.radius > d.getCircle().radius){
+				SoundHandler.crunch.play();
 				circle.radius += d.getCircle().radius / circle.radius;
 				return true;
 			}
 			else {
+				SoundHandler.bossCrunch.play();
 				die();
 			}
 		}
