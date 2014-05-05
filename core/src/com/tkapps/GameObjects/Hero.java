@@ -1,6 +1,7 @@
 package com.tkapps.GameObjects;
 
 public class Hero extends Dot {
+	private static final float TURN_SHARPNESS = 0.6f;
 	
 	public Hero(int x, int y, float radius, float direction, float initSpeed,
 			float friction) {
@@ -8,18 +9,22 @@ public class Hero extends Dot {
 	}
 	
 	public void pushUp(int speed) {
+		velocity.x *= TURN_SHARPNESS;
 		velocity.y -= speed;
 	}
 	
 	public void pushDown(int speed) {
+		velocity.x *= TURN_SHARPNESS;
 		velocity.y += speed;
 	}
 	
 	public void pushRight(int speed) {
+		velocity.y *= TURN_SHARPNESS;
 		velocity.x += speed;
 	}
 	
 	public void pushLeft(int speed) {
+		velocity.y *= TURN_SHARPNESS;
 		velocity.x -= speed;
 	}
 	

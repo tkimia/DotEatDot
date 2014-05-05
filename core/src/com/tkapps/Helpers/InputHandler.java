@@ -7,7 +7,7 @@ import com.tkapps.GameObjects.Hero;
 import com.tkapps.GameWorld.GameField;
 
 public class InputHandler implements GestureListener {
-	public static final int HERO_SPEED = 80;
+	public static final int HERO_SPEED = 100;
 	
 	private int taps;
 	private GameField gameField;

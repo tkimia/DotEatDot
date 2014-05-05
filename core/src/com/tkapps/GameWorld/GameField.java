@@ -68,17 +68,32 @@ public class GameField {
 				hero.setVelocity(hero.getVelocity().scl(-1f));
 				hero.update(delta);
 				hero.setVelocity(hero.getVelocity().scl(0.5f));
-			}	
+			}
 		}
 		
 		//see if player has collided with enemies or big boss
-		for(Dot e : enemies) {
+		Dot[] eArr = getEnemies().toArray(new Dot[]{}); 
+		for (Dot e :  eArr){
 			if (hero.handleCollision(e)){
+				boolean canAdd = true;
 				enemies.remove(e);
-				
+				do {
+					int newSize = r.nextInt((int)hero.getCircle().radius-2)+3;
+					Dot temp = new Dot(
+							r.nextInt((int)width-2*newSize)+newSize,
+							r.nextInt((int)height-2*newSize)+newSize,
+							newSize, r.nextFloat()*360, r.nextInt(100)+100, 0
+							);
+					canAdd = true;
+					for (Dot column : untouchables)
+						canAdd = canAdd && !temp.getCircle().overlaps(column.getCircle());
+					if (canAdd)
+						enemies.add(temp);
+				}while(!canAdd);
 			}
 		}
-		hero.handleCollision(bigBoss);
+		if (bigBoss.isAlive() && hero.handleCollision(bigBoss))
+			bigBoss.die();
 	}
 
 	public float getHeight() {

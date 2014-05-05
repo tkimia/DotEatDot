@@ -46,21 +46,27 @@ public class GameRenderer {
 		
 		shapeRenderer.begin(ShapeType.Filled);
 		
+		shapeRenderer.setColor(Color.LIGHT_GRAY);
+		for (Dot e : gameField.getUntouchables()) 
+			shapeRenderer.circle(e.getCircle().x, e.getCircle().y, e.getCircle().radius);
 		//put hero down
 		if (hero.isAlive()) {
-			shapeRenderer.setColor(111 / 255.0f, 186 / 255.0f, 45 / 255.0f, 1);
+			shapeRenderer.setColor(ColorHelper.heroColor);
 			shapeRenderer.circle(hero.getCircle().x, hero.getCircle().y, hero.getCircle().radius);
 		}
 		
 		//put big boss down
-		shapeRenderer.setColor(ColorHelper.getColor(bigBoss.getCircle().radius));
-		shapeRenderer.circle(bigBoss.getCircle().x, bigBoss.getCircle().y, bigBoss.getCircle().radius);
-		
+		if (bigBoss.isAlive()) {
+			shapeRenderer.setColor(ColorHelper.getColor(bigBoss.getCircle().radius));
+			shapeRenderer.circle(bigBoss.getCircle().x, bigBoss.getCircle().y, bigBoss.getCircle().radius);
+		}
 		//put enemies down
-		for (Dot e : gameField.getEnemies()) {
+		Dot[] enemies = gameField.getEnemies().toArray(new Dot[]{}); 
+		for (Dot e :  enemies){
 			shapeRenderer.setColor(ColorHelper.getColor(e.getCircle().radius));
 			shapeRenderer.circle(e.getCircle().x, e.getCircle().y, e.getCircle().radius);
 		}
+		
 		shapeRenderer.end();
 		
 
