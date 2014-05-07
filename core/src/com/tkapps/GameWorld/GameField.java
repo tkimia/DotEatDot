@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.tkapps.GameObjects.Dot;
 import com.tkapps.GameObjects.Hero;
+import com.tkapps.Helpers.DBHandler;
 import com.tkapps.Helpers.SoundHandler;
 
 public class GameField {
@@ -23,6 +24,8 @@ public class GameField {
 	private float runTime = 0;
 	
 	private float height, width;
+	
+	public String[] highScores = null;
 	
 	//the state of the game
 	private GameState currentState;
@@ -159,12 +162,16 @@ public class GameField {
 			}while(!canAdd);
 		}
 		
-		if (bigBoss.isAlive() && hero.isAlive() && hero.handleCollision(bigBoss)){
-			bigBoss.die();
-			currentState = GameState.GAMEOVER;
-		}
-		else if (!hero.isAlive()) {
-			currentState = GameState.GAMEOVER;
+		if (currentState == GameState.RUNNING) {
+			if (bigBoss.isAlive() && hero.isAlive() && hero.handleCollision(bigBoss)){
+				bigBoss.die();
+				highScores = DBHandler.getHighScores();
+				currentState = GameState.GAMEOVER;
+			}
+			else if (!hero.isAlive()) {
+				highScores = DBHandler.getHighScores();
+				currentState = GameState.GAMEOVER;
+			}
 		}
 	}
 	

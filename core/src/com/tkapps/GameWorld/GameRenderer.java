@@ -98,12 +98,22 @@ public class GameRenderer {
 		}
 		else if (gameField.getCurrentState() == GameState.GAMEOVER) {
 			if (hero.isAlive()){
-				AssetHandler.font.draw(sprite, "YOU WIN!", 75, gameField.getHeight()/2);
-				AssetHandler.font.draw(sprite, "Play Again?", 75, gameField.getHeight()/2+20);
+				AssetHandler.font.draw(sprite, "YOU WIN!", 75, gameField.getHeight()/6);
+				AssetHandler.font.draw(sprite, "Play Again", 75, gameField.getHeight()/6*5);
 			}
 			else {
-				AssetHandler.font.draw(sprite, "You Lose", 75, gameField.getHeight()/2);
-				AssetHandler.font.draw(sprite, "Play Again?", 75, gameField.getHeight()/2+20);
+				AssetHandler.font.draw(sprite, "You Lose", 85, gameField.getHeight()/6);
+				AssetHandler.font.draw(sprite, "Tap to Play Again", 55, gameField.getHeight()/6*5);
+			}
+			int i = 1;
+			AssetHandler.font.draw(sprite, "High Scores Today:", 55, gameField.getHeight()/20 * (5));
+			for (String s : gameField.highScores) {
+				String[] temp = s.split("\\|");
+				AssetHandler.font.draw(sprite, temp[0], 55, gameField.getHeight()/20 * (5+i));
+				int mins = Integer.parseInt(temp[1])/60;
+				temp[1] = String.format("%02d:%02d", mins, Integer.parseInt(temp[1])-60*mins);
+				AssetHandler.font.draw(sprite, temp[1], 175, gameField.getHeight()/20 * (5+i));
+				i++;
 			}
 				
 		}
