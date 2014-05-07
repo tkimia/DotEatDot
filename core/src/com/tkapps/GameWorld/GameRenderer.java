@@ -81,6 +81,7 @@ public class GameRenderer {
 		shapeRenderer.end();
 		
 		drawText();
+		if (gameField.getCurrentState() == GameState.READY) drawInstructions();
 
 	}
 
@@ -88,15 +89,14 @@ public class GameRenderer {
 		//use the sprite batch to draw the text depending on the currentState
 		sprite.begin();
 		sprite.enableBlending();
-		if (gameField.getCurrentState() == GameState.RUNNING) {
 			int mins = (int)(gameField.getRunTime() / 60);
 			String time = String.format("Time: %02d:%02d", mins, (int)(gameField.getRunTime()-60*mins));
 			AssetHandler.font.draw(sprite, time, 150, 15);
-		}
-		else if (gameField.getCurrentState() == GameState.READY) {
+		if (gameField.getCurrentState() == GameState.READY) {
 			AssetHandler.font.draw(sprite, "Tap to Start", 75, gameField.getHeight()/2);
 		}
 		else if (gameField.getCurrentState() == GameState.GAMEOVER) {
+			
 			if (hero.isAlive()){
 				AssetHandler.font.draw(sprite, "YOU WIN!", 75, gameField.getHeight()/6);
 				AssetHandler.font.draw(sprite, "Play Again", 75, gameField.getHeight()/6*5);
@@ -106,20 +106,40 @@ public class GameRenderer {
 				AssetHandler.font.draw(sprite, "Tap to Play Again", 55, gameField.getHeight()/6*5);
 			}
 			int i = 1;
-			AssetHandler.font.draw(sprite, "High Scores Today:", 55, gameField.getHeight()/20 * (5));
+			AssetHandler.font.draw(sprite, "High Scores Today:", 45, gameField.getHeight()/20 * (5));
 			for (String s : gameField.highScores) {
 				String[] temp = s.split("\\|");
-				AssetHandler.font.draw(sprite, temp[0], 55, gameField.getHeight()/20 * (5+i));
-				int mins = Integer.parseInt(temp[1])/60;
-				temp[1] = String.format("%02d:%02d", mins, Integer.parseInt(temp[1])-60*mins);
-				AssetHandler.font.draw(sprite, temp[1], 175, gameField.getHeight()/20 * (5+i));
+				AssetHandler.font.draw(sprite, temp[0], 45, gameField.getHeight()/20 * (5+i));
+				int mymins = Integer.parseInt(temp[1])/60;
+				temp[1] = String.format("%02d:%02d", mymins, Integer.parseInt(temp[1])-60*mymins);
+				AssetHandler.font.draw(sprite, temp[1], 165, gameField.getHeight()/20 * (5+i));
 				i++;
 			}
 				
 		}
 		
 		sprite.end();
+	}
+	
+	private void drawInstructions() {
+		shapeRenderer.begin(ShapeType.Filled);
 		
+		shapeRenderer.setColor(new Color(210f/255f, 180f/255f, 140f/255f, 1f));
+		shapeRenderer.rect(20, gameField.getHeight()*0.6f, gameField.getWidth()-40, gameField.getHeight()*0.35f);
+		
+		shapeRenderer.end();
+		
+		sprite.begin();
+		sprite.enableBlending();
+		AssetHandler.font.draw(sprite, "Instructions:", 25, gameField.getHeight()*0.61f);
+		AssetHandler.font.draw(sprite, "Swipe up/down/left/right", 25, gameField.getHeight()*0.65f);
+		AssetHandler.font.draw(sprite, "to move", 25, gameField.getHeight()*0.69f);
+		AssetHandler.font.draw(sprite, "Eat white dots to grow.", 25, gameField.getHeight()*0.73f);
+		AssetHandler.font.draw(sprite, "Beware of big dots!", 25, gameField.getHeight()*0.77f);
+		AssetHandler.font.draw(sprite, "You'll bounce off grey.", 25, gameField.getHeight()*0.81f);
+		AssetHandler.font.draw(sprite, "Win by eating \"big boss\",", 25, gameField.getHeight()*0.85f);
+		AssetHandler.font.draw(sprite, "the floating blue dot.", 25, gameField.getHeight()*0.89f);
+		sprite.end();
 	}
 
 }

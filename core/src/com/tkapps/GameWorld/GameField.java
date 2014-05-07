@@ -90,7 +90,8 @@ public class GameField {
 	 */
 	public void updateRunning(float delta) {
 		//update position for moving circles
-		runTime += delta;
+		if (currentState == GameState.RUNNING)
+			runTime += delta;
 		hero.update(delta);
 		bigBoss.update(delta);
 		for (Dot e : enemies)
