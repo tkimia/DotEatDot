@@ -97,6 +97,7 @@ public class InputHandler implements GestureListener {
 				DBHandler.submitScore(""+alphabet[GameRenderer.initialIndexes[0]]
 						+alphabet[GameRenderer.initialIndexes[1]]+alphabet[GameRenderer.initialIndexes[2]], (int) gameField.getRunTime());
 				gameField.highScores = DBHandler.getHighScores();
+				submitted = true;
 			}
 			return true;
 		}
