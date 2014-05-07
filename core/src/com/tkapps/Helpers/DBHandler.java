@@ -1,9 +1,7 @@
 package com.tkapps.Helpers;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 
 import com.badlogic.gdx.Gdx;
@@ -36,5 +34,25 @@ public class DBHandler {
 		}
 		toReturn = result.split("\n");
 		return toReturn;
+	}
+	
+	public static void submitScore(){
+
+		try {
+			Socket dbSocket = Gdx.net.newClientSocket(Protocol.TCP, url, port, null);
+			
+			//setup input and output for socket
+			PrintWriter out = new PrintWriter(dbSocket.getOutputStream(), true);
+			BufferedReader in = new BufferedReader(
+					new InputStreamReader(dbSocket.getInputStream()));
+			
+			out.println("GET-ALL-SCORES|root|philiaga");
+			String temp = in.readLine();
+			while (temp != null) {
+				temp = in.readLine();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
