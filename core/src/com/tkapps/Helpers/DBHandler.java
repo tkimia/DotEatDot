@@ -17,8 +17,9 @@ public class DBHandler {
 	public static String[] getHighScores(){
 		String result = "";
 		String[] toReturn;
+		Socket dbSocket = null;
 		try {
-			Socket dbSocket = Gdx.net.newClientSocket(Protocol.TCP, url, port, null);
+			dbSocket = Gdx.net.newClientSocket(Protocol.TCP, url, port, null);
 			
 			//setup input and output for socket
 			PrintWriter out = new PrintWriter(dbSocket.getOutputStream(), true);
@@ -31,17 +32,22 @@ public class DBHandler {
 				result += temp + "\n";
 				temp = in.readLine();
 			}
+			toReturn = result.split("\n");
 		} catch (Exception e) {
-			e.printStackTrace();
+			toReturn = new String[1];
+			toReturn[0] = "No Connection|...|"; 
+		} finally {
+			if(dbSocket != null)
+				dbSocket.dispose();
 		}
-		toReturn = result.split("\n");
+		
 		return toReturn;
 	}
 	
 	public static void submitScore(String inits, int time){
-
+		Socket dbSocket = null;
 		try {
-			Socket dbSocket = Gdx.net.newClientSocket(Protocol.TCP, url, port, null);
+			dbSocket = Gdx.net.newClientSocket(Protocol.TCP, url, port, null);
 			
 			//setup input and output for socket
 			PrintWriter out = new PrintWriter(dbSocket.getOutputStream(), true);
@@ -51,7 +57,10 @@ public class DBHandler {
 			out.println("PUT-SCORE-INFO|root|philiaga|"+inits+"|"+time);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+		} finally {
+			if(dbSocket != null)
+				dbSocket.dispose();
 		}
+		return;
 	}
 }

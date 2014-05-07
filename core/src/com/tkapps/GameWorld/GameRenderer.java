@@ -116,8 +116,10 @@ public class GameRenderer {
 			for (String s : gameField.highScores) {
 				String[] temp = s.split("\\|");
 				AssetHandler.font.draw(sprite, temp[0], 45, gameField.getHeight()/20 * (5+i));
-				int mymins = Integer.parseInt(temp[1])/60;
-				temp[1] = String.format("%02d:%02d", mymins, Integer.parseInt(temp[1])-60*mymins);
+				if (!temp[1].endsWith(".")) {
+					int mymins = Integer.parseInt(temp[1])/60;
+					temp[1] = String.format("%02d:%02d", mymins, Integer.parseInt(temp[1])-60*mymins);
+				}
 				AssetHandler.font.draw(sprite, temp[1], 165, gameField.getHeight()/20 * (5+i));
 				i++;
 			}
