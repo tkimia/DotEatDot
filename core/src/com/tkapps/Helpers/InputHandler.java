@@ -1,5 +1,6 @@
 package com.tkapps.Helpers;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 
 import com.badlogic.gdx.math.Vector2;
@@ -14,6 +15,7 @@ public class InputHandler implements GestureListener {
 	private int taps;
 	private GameField gameField;
 	private Hero hero;
+	private boolean submitted = false;
 	
 	private char[] alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
             'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' '};
@@ -42,17 +44,20 @@ public class InputHandler implements GestureListener {
 			if (taps > 1 ) hero.setVelocity(new Vector2(0, 0));
 		}
 		else {
-			if (hero.isAlive() && y >= 285 && y <= 325 ) {
-			 if (x > 35 && x < 100)
+			System.out.printf("%f %f", x, y);
+			if (hero.isAlive() && y >=  Gdx.graphics.getHeight()*0.7f && y <=  Gdx.graphics.getHeight()*0.8f ) {
+				float width = Gdx.graphics.getWidth();
+			 if (x > width*0.1 && x < width*0.39)
 				 GameRenderer.initialIndexes[0] = (GameRenderer.initialIndexes[0]+1)%27;
-			 else if (x > 100 && x < 170)
+			 else if (x > width*0.4 && x < width*0.65)
 				 GameRenderer.initialIndexes[1] = (GameRenderer.initialIndexes[1]+1)%27;
-			 else if (x > 170 && x < 240)
+			 else if (x > width*0.7 && x < width*0.9)
 				 GameRenderer.initialIndexes[2] = (GameRenderer.initialIndexes[2]+1)%27;
 			}
 			else {
 				gameField.restart();
 				gameField.setCurrentState(GameState.READY);
+				submitted = false;
 			}
 			
 		}
@@ -88,7 +93,7 @@ public class InputHandler implements GestureListener {
 			return true;
 		}
 		else {
-			if (Math.abs(velocityX) < Math.abs(velocityY) && velocityY < 0) {
+			if (Math.abs(velocityX) < Math.abs(velocityY) && velocityY < 0 && !submitted) {
 				DBHandler.submitScore(""+alphabet[GameRenderer.initialIndexes[0]]
 						+alphabet[GameRenderer.initialIndexes[1]]+alphabet[GameRenderer.initialIndexes[2]], (int) gameField.getRunTime());
 				gameField.highScores = DBHandler.getHighScores();
