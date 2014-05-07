@@ -22,6 +22,10 @@ public class GameRenderer {
 	private Hero hero;
 	private Dot bigBoss;
 	
+	private char[] alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+	                           'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' '};
+	public static int[] initialIndexes = {19, 10, 26};
+	
 	public GameRenderer(GameField gameField) {
 		this.gameField = gameField;
 		hero = gameField.getHero();
@@ -82,7 +86,9 @@ public class GameRenderer {
 		
 		drawText();
 		if (gameField.getCurrentState() == GameState.READY) drawInstructions();
-
+		if (gameField.getCurrentState() == GameState.GAMEOVER && hero.isAlive())
+			enterInitials();
+			
 	}
 
 	private void drawText() {
@@ -142,4 +148,22 @@ public class GameRenderer {
 		sprite.end();
 	}
 
+	private void enterInitials() {
+		shapeRenderer.begin(ShapeType.Filled);
+		
+		shapeRenderer.setColor(new Color(210f/255f, 180f/255f, 140f/255f, 1f));
+		shapeRenderer.rect(20, gameField.getHeight()*0.7f, gameField.getWidth()-40, gameField.getHeight()*0.1f);
+		shapeRenderer.setColor(Color.WHITE);
+		shapeRenderer.rect(50, gameField.getHeight()*0.71f, gameField.getWidth()*0.1f, gameField.getHeight()*0.08f);
+		shapeRenderer.rect(110, gameField.getHeight()*0.71f, gameField.getWidth()*0.1f, gameField.getHeight()*0.08f);
+		shapeRenderer.rect(170, gameField.getHeight()*0.71f, gameField.getWidth()*0.1f, gameField.getHeight()*0.08f);
+		shapeRenderer.end();
+		
+		sprite.begin();
+		sprite.enableBlending();
+		AssetHandler.font.draw(sprite, ""+alphabet[initialIndexes[0]], 60, gameField.getHeight()*0.73f);
+		AssetHandler.font.draw(sprite, ""+alphabet[initialIndexes[1]], 120, gameField.getHeight()*0.73f);
+		AssetHandler.font.draw(sprite, ""+alphabet[initialIndexes[2]], 180, gameField.getHeight()*0.73f);
+		sprite.end();
+	}
 }

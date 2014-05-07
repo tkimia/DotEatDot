@@ -12,6 +12,8 @@ public class DBHandler {
 	private static final String url = "moore06.cs.purdue.edu";
 	private static final int port = 3006;
 	
+
+	
 	public static String[] getHighScores(){
 		String result = "";
 		String[] toReturn;
@@ -36,7 +38,7 @@ public class DBHandler {
 		return toReturn;
 	}
 	
-	public static void submitScore(){
+	public static void submitScore(String inits, int time){
 
 		try {
 			Socket dbSocket = Gdx.net.newClientSocket(Protocol.TCP, url, port, null);
@@ -46,11 +48,8 @@ public class DBHandler {
 			BufferedReader in = new BufferedReader(
 					new InputStreamReader(dbSocket.getInputStream()));
 			
-			out.println("GET-ALL-SCORES|root|philiaga");
-			String temp = in.readLine();
-			while (temp != null) {
-				temp = in.readLine();
-			}
+			out.println("PUT-SCORE-INFO|root|philiaga|"+inits+"|"+time);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

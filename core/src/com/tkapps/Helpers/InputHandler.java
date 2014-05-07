@@ -5,6 +5,7 @@ import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
 import com.tkapps.GameObjects.Hero;
 import com.tkapps.GameWorld.GameField;
+import com.tkapps.GameWorld.GameRenderer;
 import com.tkapps.GameWorld.GameState;
 
 public class InputHandler implements GestureListener {
@@ -13,6 +14,9 @@ public class InputHandler implements GestureListener {
 	private int taps;
 	private GameField gameField;
 	private Hero hero;
+	
+	private char[] alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+            'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' '};
 	
 	public InputHandler(GameField gameField) {
 		this.gameField = gameField;
@@ -28,6 +32,7 @@ public class InputHandler implements GestureListener {
 
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
+		
 		if (gameField.getCurrentState() == GameState.READY) {
 			gameField.setCurrentState(GameState.RUNNING);
 		}
@@ -37,8 +42,19 @@ public class InputHandler implements GestureListener {
 			if (taps > 1 ) hero.setVelocity(new Vector2(0, 0));
 		}
 		else {
-			gameField.restart();
-			gameField.setCurrentState(GameState.READY);
+			if (hero.isAlive() && y >= 285 && y <= 325 ) {
+			 if (x > 35 && x < 100)
+				 GameRenderer.initialIndexes[0] = (GameRenderer.initialIndexes[0]+1)%27;
+			 else if (x > 100 && x < 170)
+				 GameRenderer.initialIndexes[1] = (GameRenderer.initialIndexes[1]+1)%27;
+			 else if (x > 170 && x < 240)
+				 GameRenderer.initialIndexes[2] = (GameRenderer.initialIndexes[2]+1)%27;
+			}
+			else {
+				gameField.restart();
+				gameField.setCurrentState(GameState.READY);
+			}
+			
 		}
 		return true;
 	}
@@ -72,7 +88,11 @@ public class InputHandler implements GestureListener {
 			return true;
 		}
 		else {
-			//THIS IS WHERE YOU NEED TO ADD THE SERVER
+			if (Math.abs(velocityX) < Math.abs(velocityY) && velocityY < 0) {
+				DBHandler.submitScore(""+alphabet[GameRenderer.initialIndexes[0]]
+						+alphabet[GameRenderer.initialIndexes[1]]+alphabet[GameRenderer.initialIndexes[2]], (int) gameField.getRunTime());
+				gameField.highScores = DBHandler.getHighScores();
+			}
 			return true;
 		}
 		

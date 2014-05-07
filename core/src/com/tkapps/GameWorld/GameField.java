@@ -39,7 +39,7 @@ public class GameField {
 		hero = new Hero(102, 200, 5f, 0, 0, 0.85f);
 		
 		//add big boss
-		bigBoss = new Dot(50, 50, 25f, 260, 50, 0f);
+		bigBoss = new Dot(50, 50, 4.5f, 260, 50, 0f);
 		
 		//add fish food
 		enemies.add(new Dot(100, 50, 4f, 280, 50, 0f));
