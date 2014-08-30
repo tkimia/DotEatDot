@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.utils.Array;
 import com.tkapps.GameObjects.Dot;
 import com.tkapps.GameObjects.Hero;
 import com.tkapps.Helpers.AssetHandler;
@@ -68,7 +69,7 @@ public class GameRenderer {
 		}
 
 		//put enemies down
-		Dot[] enemies = gameField.getEnemies().toArray(new Dot[]{}); 
+		Array<Dot> enemies = gameField.getEnemies();
 		for (Dot e :  enemies){
 			if (e.getCircle().radius <= hero.getCircle().radius)
 				shapeRenderer.setColor(Color.WHITE);
@@ -110,18 +111,6 @@ public class GameRenderer {
 			else {
 				AssetHandler.font.draw(sprite, "You Lose", 85, gameField.getHeight()/6);
 				AssetHandler.font.draw(sprite, "Tap to Play Again", 55, gameField.getHeight()/6*5);
-			}
-			int i = 1;
-			AssetHandler.font.draw(sprite, "High Scores Today:", 45, gameField.getHeight()/20 * (5));
-			for (String s : gameField.highScores) {
-				String[] temp = s.split("\\|");
-				AssetHandler.font.draw(sprite, temp[0], 45, gameField.getHeight()/20 * (5+i));
-				if (!temp[1].endsWith(".")) {
-					int mymins = Integer.parseInt(temp[1])/60;
-					temp[1] = String.format("%02d:%02d", mymins, Integer.parseInt(temp[1])-60*mymins);
-				}
-				AssetHandler.font.draw(sprite, temp[1], 165, gameField.getHeight()/20 * (5+i));
-				i++;
 			}
 				
 		}

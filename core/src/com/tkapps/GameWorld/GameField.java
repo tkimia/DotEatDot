@@ -3,17 +3,17 @@ package com.tkapps.GameWorld;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.badlogic.gdx.utils.Array;
 import com.tkapps.GameObjects.Dot;
 import com.tkapps.GameObjects.Hero;
-import com.tkapps.Helpers.DBHandler;
 import com.tkapps.Helpers.SoundHandler;
 
 public class GameField {
 	//a hero and a few enemies
 	private Hero hero;
 	private Dot bigBoss;
-	private ArrayList<Dot> enemies = new ArrayList<Dot>();
-	private ArrayList<Dot> untouchables = new ArrayList<Dot>();
+	private Array<Dot> enemies = new Array<Dot>();
+	private Array<Dot> untouchables = new Array<Dot>();
 	
 	private Random r = new Random();
 	
@@ -55,7 +55,7 @@ public class GameField {
 		currentState = GameState.READY;
 	}
 	
-	public ArrayList<Dot> getUntouchables() {
+	public Array<Dot> getUntouchables() {
 		return untouchables;
 	}
 	
@@ -115,11 +115,11 @@ public class GameField {
 		
 		//see if player has collided with enemies or big boss
 		if (hero.isAlive()) {
-			Dot[] eArr = getEnemies().toArray(new Dot[] {});
-			for (Dot e : eArr) {
+			for (int i = 0; i < enemies.size; i++) {
+				Dot e = enemies.get(i);
 				if (e.isPresent() && hero.handleCollision(e)) {
 					boolean canAdd = true;
-					enemies.remove(e);
+					enemies.removeIndex(i);
 					if (hero.getCircle().radius < 26) {
 						do {
 							int newSize = r
@@ -166,11 +166,9 @@ public class GameField {
 		if (currentState == GameState.RUNNING) {
 			if (bigBoss.isAlive() && hero.isAlive() && hero.handleCollision(bigBoss)){
 				bigBoss.die();
-				highScores = DBHandler.getHighScores();
 				currentState = GameState.GAMEOVER;
 			}
 			else if (!hero.isAlive()) {
-				highScores = DBHandler.getHighScores();
 				currentState = GameState.GAMEOVER;
 			}
 		}
@@ -207,7 +205,7 @@ public class GameField {
 		return hero;
 	}
 
-	public ArrayList<Dot> getEnemies() {
+	public Array<Dot> getEnemies() {
 		return enemies;
 	}
 	

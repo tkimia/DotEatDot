@@ -93,12 +93,6 @@ public class InputHandler implements GestureListener {
 			return true;
 		}
 		else {
-			if (Math.abs(velocityX) < Math.abs(velocityY) && velocityY < 0 && !submitted) {
-				DBHandler.submitScore(""+alphabet[GameRenderer.initialIndexes[0]]
-						+alphabet[GameRenderer.initialIndexes[1]]+alphabet[GameRenderer.initialIndexes[2]], (int) gameField.getRunTime());
-				gameField.highScores = DBHandler.getHighScores();
-				submitted = true;
-			}
 			return true;
 		}
 		
