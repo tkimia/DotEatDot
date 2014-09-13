@@ -12,7 +12,7 @@ public class DotEatDot extends Game {
 	public void create () {
 		SoundHandler.load();
 		AssetHandler.load();
-		setScreen(new GameScreen());
+		setScreen(new MainMenu());
 	}
 	
 	@Override
