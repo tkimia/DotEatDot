@@ -12,7 +12,7 @@ import com.tkapps.GameWorld.GameField;
 import com.tkapps.GameWorld.GameRenderer;
 import com.tkapps.GameWorld.GameState;
 
-public class InputHandler implements GestureListener, KeyListener {
+public class InputHandler implements GestureListener {
 	public static final int HERO_SPEED = 100;
 	
 	private int taps;
@@ -25,26 +25,7 @@ public class InputHandler implements GestureListener, KeyListener {
 		
 	}
 
-	@Override
-	public void keyTyped(KeyEvent key) {
-		switch (key.getKeyCode()) {
-		case Keys.LEFT:
-			fling(-1, 0, 0);
-			break;
-		case Keys.RIGHT:
-			fling(1, 0, 0);
-			break;
-		case Keys.UP:
-			fling(0, 1, 0);
-			break;
-		case Keys.DOWN:
-			fling(0, -1, 0);
-			break;
-		default:
-			break;
-		}
 		
-	}
 
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
@@ -136,17 +117,6 @@ public class InputHandler implements GestureListener, KeyListener {
 		return false;
 	}
 
-	@Override
-	public void keyPressed(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 }

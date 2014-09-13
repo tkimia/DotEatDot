@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -12,11 +13,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 
  
 public class MainMenu implements Screen {
+	private final int HEIGHT = 480;
+	private final int WIDTH = 240;
 	
-	private Stage stage = new Stage();
+	private Stage stage = new Stage(new StretchViewport(WIDTH, HEIGHT));
     private Table table = new Table();
      
     Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
@@ -65,9 +69,9 @@ public class MainMenu implements Screen {
         //The elements are displayed in the order you add them.
         //The first appear on top, the last at the bottom.
         table.add(title).padBottom(20).row();
-        table.add(buttonPlay).size(150,60).padBottom(20).row();
-        table.add(buttonHelp).size(150, 60).padBottom(20).row();
-        table.add(buttonExit).size(150,60).padBottom(20).row();
+        table.add(buttonPlay).size(WIDTH/2, HEIGHT/6).padBottom(20).row();
+        table.add(buttonHelp).size(WIDTH/2, HEIGHT/6).padBottom(20).row();
+        table.add(buttonExit).size(WIDTH/2, HEIGHT/6).padBottom(20).row();
          
         table.setFillParent(true);
         stage.addActor(table);
