@@ -4,12 +4,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessorQueue;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.tkapps.GameObjects.Hero;
 import com.tkapps.GameWorld.GameField;
 import com.tkapps.GameWorld.GameRenderer;

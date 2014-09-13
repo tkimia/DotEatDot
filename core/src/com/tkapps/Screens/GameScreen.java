@@ -1,10 +1,8 @@
 package com.tkapps.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.tkapps.GameWorld.GameField;
 import com.tkapps.GameWorld.GameRenderer;
 import com.tkapps.Helpers.InputHandler;
