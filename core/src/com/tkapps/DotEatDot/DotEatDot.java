@@ -7,8 +7,6 @@ import com.tkapps.Screens.*;
 
 
 public class DotEatDot extends Game {
-	public float width = 0;
-	public float height = 0;
 	
 	@Override
 	public void create () {
