@@ -1,6 +1,5 @@
 package com.tkapps.GameWorld;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.utils.Array;

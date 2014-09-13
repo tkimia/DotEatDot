@@ -1,35 +1,52 @@
 package com.tkapps.Helpers;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.input.GestureDetector.GestureListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessorQueue;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.tkapps.GameObjects.Hero;
 import com.tkapps.GameWorld.GameField;
 import com.tkapps.GameWorld.GameRenderer;
 import com.tkapps.GameWorld.GameState;
 
-public class InputHandler implements GestureListener {
+public class InputHandler implements GestureListener, KeyListener {
 	public static final int HERO_SPEED = 100;
 	
 	private int taps;
 	private GameField gameField;
 	private Hero hero;
-	private boolean submitted = false;
-	
-	private char[] alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
-            'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' '};
-	
+
 	public InputHandler(GameField gameField) {
 		this.gameField = gameField;
 		hero = gameField.getHero();
 		
 	}
-	
+
 	@Override
-	public boolean touchDown(float x, float y, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
+	public void keyTyped(KeyEvent key) {
+		switch (key.getKeyCode()) {
+		case Keys.LEFT:
+			fling(-1, 0, 0);
+			break;
+		case Keys.RIGHT:
+			fling(1, 0, 0);
+			break;
+		case Keys.UP:
+			fling(0, 1, 0);
+			break;
+		case Keys.DOWN:
+			fling(0, -1, 0);
+			break;
+		default:
+			break;
+		}
+		
 	}
 
 	@Override
@@ -57,18 +74,12 @@ public class InputHandler implements GestureListener {
 			else {
 				gameField.restart();
 				gameField.setCurrentState(GameState.READY);
-				submitted = false;
 			}
 			
 		}
 		return true;
 	}
 
-	@Override
-	public boolean longPress(float x, float y) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@Override
 	public boolean fling(float velocityX, float velocityY, int button) {
@@ -98,29 +109,47 @@ public class InputHandler implements GestureListener {
 		
 	}
 
+	
+	/**
+	 * FALSE METHODS
+	 **/
+	@Override
+	public boolean longPress(float x, float y) {
+		return false;
+	}
 	@Override
 	public boolean pan(float x, float y, float deltaX, float deltaY) {
-		// TODO Auto-generated method stub
 		return false;
 	}
-
 	@Override
 	public boolean panStop(float x, float y, int pointer, int button) {
-		// TODO Auto-generated method stub
 		return false;
 	}
-
 	@Override
 	public boolean zoom(float initialDistance, float distance) {
-		// TODO Auto-generated method stub
 		return false;
 	}
-
 	@Override
 	public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2,
 			Vector2 pointer1, Vector2 pointer2) {
-		// TODO Auto-generated method stub
 		return false;
 	}
+	@Override
+	public boolean touchDown(float x, float y, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
