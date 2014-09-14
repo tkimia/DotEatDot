@@ -12,9 +12,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 public class HelpScreen implements Screen {
-	private Stage stage = new Stage();
+	private final int HEIGHT = 480;
+	private final int WIDTH = 240;
+	
+	private Stage stage = new Stage(new ExtendViewport(WIDTH, HEIGHT));
     private Table table = new Table();
      
     Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
